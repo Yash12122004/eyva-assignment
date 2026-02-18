@@ -4,7 +4,7 @@ import api from "../api/axios";
 import type { Task, Project } from "../types";
 import { KanbanBoard } from "../components/kanban/KanbanBoard";
 import { Box, Typography, CircularProgress, Alert, Button, IconButton, Paper } from "@mui/material";
-import { ArrowBack as ArrowBackIcon, Refresh as RefreshIcon, Add as AddIcon } from "@mui/icons-material";
+import { ArrowBack as ArrowBackIcon, Refresh as RefreshIcon } from "@mui/icons-material";
 
 function transformTask(apiTask: any): Task {
   return {
