@@ -26,6 +26,7 @@ interface Props {
   projectId: string;
   updateTaskStatus: (id: string, status: Task["status"]) => void;
   onTaskCreated: () => void;
+  onDeleteTask: (id: string) => void;
   loading?: boolean;
 }
 
@@ -34,6 +35,7 @@ export function KanbanBoard({
   projectId,
   updateTaskStatus,
   onTaskCreated,
+  onDeleteTask,
   loading,
 }: Props) {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
@@ -169,12 +171,13 @@ export function KanbanBoard({
             items={items.map((t) => t.id)}
             strategy={verticalListSortingStrategy}
           >
-            <TaskColumn
-              status={status as Task["status"]}
-              tasks={items}
-              projectId={projectId}
-              onTaskCreated={onTaskCreated}
-            />
+          <TaskColumn
+            status={status as Task["status"]}
+            tasks={items}
+            projectId={projectId}
+            onTaskCreated={onTaskCreated}
+            onDeleteTask={onDeleteTask}
+          />
           </SortableContext>
         ))}
       </Box>

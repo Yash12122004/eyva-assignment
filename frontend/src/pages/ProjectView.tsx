@@ -45,6 +45,20 @@ export default function ProjectView() {
     }
   };
 
+  const deleteTask = async (taskId: string) => {
+
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
+  
+    try {
+      await api.delete(`/api/tasks/${taskId}`);
+    } catch (err) {
+      console.error(err);
+  
+      // rollback if API fails
+      fetchData();
+    }
+  };  
+
   useEffect(() => {
     fetchData();
   }, [id]);
@@ -122,6 +136,7 @@ export default function ProjectView() {
           projectId={id || ""}
           updateTaskStatus={updateTaskStatus}
           onTaskCreated={fetchData}
+          onDeleteTask={deleteTask}
         />
       </Paper>
     </Box>

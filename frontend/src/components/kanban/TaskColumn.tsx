@@ -12,6 +12,7 @@ interface Props {
   tasks: Task[];
   projectId: string;
   onTaskCreated: () => void;
+  onDeleteTask: (id: string) => void;
 }
 
 const statusLabels: Record<Task["status"], string> = {
@@ -26,7 +27,7 @@ const statusColors: Record<Task["status"], string> = {
   done: "#4caf50",
 };
 
-export function TaskColumn({ status, tasks, projectId, onTaskCreated }: Props) {
+export function TaskColumn({ status, tasks, projectId, onTaskCreated, onDeleteTask }: Props) {
   const { setNodeRef, isOver } = useDroppable({
     id: status,
     data: { status },
@@ -109,7 +110,11 @@ export function TaskColumn({ status, tasks, projectId, onTaskCreated }: Props) {
             </Box>
           ) : (
             tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
+              <TaskCard
+                key={task.id}
+                task={task}
+                onDelete={onDeleteTask}
+              />
             ))
           )}
         </Box>

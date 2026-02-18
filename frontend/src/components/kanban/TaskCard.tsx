@@ -2,12 +2,15 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Paper, Typography, Box, Chip } from "@mui/material";
 import { DragIndicator as DragIndicatorIcon } from "@mui/icons-material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { IconButton } from "@mui/material";
 
 import type { Task } from "../../types";
 
 interface Props {
   task: Task;
   isOverlay?: boolean;
+  onDelete?: (id: string) => void;
 }
 
 const priorityColors: Record<Task["priority"], "success" | "warning" | "error"> = {
@@ -16,7 +19,7 @@ const priorityColors: Record<Task["priority"], "success" | "warning" | "error"> 
   high: "error",
 };
 
-export function TaskCard({ task, isOverlay }: Props) {
+export function TaskCard({ task, isOverlay, onDelete }: Props) {
   const {
     attributes,
     listeners,
@@ -31,6 +34,16 @@ export function TaskCard({ task, isOverlay }: Props) {
       task: task 
     },
   });
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // stop drag
+    e.preventDefault();
+  
+    if (onDelete) {
+      onDelete(task.id);
+      return;
+    }
+  };  
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -54,16 +67,49 @@ export function TaskCard({ task, isOverlay }: Props) {
         borderRadius: 2,
         border: '1px solid #e0e0e0',
         boxShadow: isOverlay ? 8 : 1,
+        '&:hover .delete-btn': {
+          opacity: 1,
+        },
         '&:hover': {
           boxShadow: 3,
           borderColor: '#bdbdbd',
-        },
+        },        
         '&:active': {
           cursor: 'grabbing',
         }
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 1,
+          position: "relative",
+        }}
+      >
+        <IconButton
+          className="delete-btn"
+          size="small"
+          onClick={handleDelete}
+          onPointerDown={(e) => e.stopPropagation()}
+          sx={{
+            position: "absolute",
+            top: -8,
+            right: -8,
+            opacity: 0,
+            transition: "opacity 0.2s ease",
+            backgroundColor: "#fff",
+            "&:hover": {
+              backgroundColor: "#ffeaea",
+            },
+            ".MuiSvgIcon-root": {
+              fontSize: 18,
+            },
+          }}
+        >
+          <DeleteOutlineIcon />
+        </IconButton>
+
         <DragIndicatorIcon sx={{ color: '#9e9e9e', fontSize: 20, mt: 0.25 }} />
         <Box sx={{ flex: 1 }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
