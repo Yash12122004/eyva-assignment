@@ -27,16 +27,6 @@ The backend connects to Render PostgreSQL using environment variables and SSL.
 
 ---
 
-## Tech Stack
-
-- React (Vite)
-- Node.js
-- Express
-- PostgreSQL
-- Render (Hosting)
-
----
-
 # Local Development Setup
 
 ## Clone the Repository
