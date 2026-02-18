@@ -49,6 +49,33 @@ export async function updateTask(req, res, next) {
   }
 }
 
+export async function updateTaskStatus(req, res, next) {
+  try {
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    const result = await pool.query(
+      `UPDATE tasks
+       SET status = $1,
+           updated_at = NOW()
+       WHERE id = $2
+       RETURNING *`,
+      [status, req.params.id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function deleteTask(req, res, next) {
   try {
     await pool.query("DELETE FROM tasks WHERE id=$1", [req.params.id]);

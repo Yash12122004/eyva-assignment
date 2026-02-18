@@ -1,6 +1,6 @@
 import { Router } from "express";
 import auth from "../middleware/authMiddleware.js";
-import { getProjectTasks, createTask, updateTask, deleteTask } from "../controllers/taskController.js";
+import { getProjectTasks, createTask, updateTask, deleteTask, updateTaskStatus } from "../controllers/taskController.js";
 import validate from "../middleware/validate.js";
 import { taskSchema } from "../schemas/schema-zod.js";
 
@@ -10,5 +10,6 @@ router.get("/:id/tasks", auth, getProjectTasks);
 router.post("/", auth, validate(taskSchema), createTask);
 router.put("/:id", auth, updateTask);
 router.delete("/:id", auth, deleteTask);
+router.patch("/:id/status", auth, updateTaskStatus);
 
 export default router;
