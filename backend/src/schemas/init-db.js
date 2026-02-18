@@ -1,8 +1,12 @@
 import dotenv from "dotenv";
 import { Pool } from "pg";
-import { schemaSQL } from "../src/db/schema-sql.js";
+import { schemaSQL } from "./schema-sql.js";
 
-dotenv.config();
+if (process.env.NODE_ENV === "test") {
+  dotenv.config({ path: ".env.test" });
+} else {
+  dotenv.config({ path: ".env" });
+}
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "init-db": "node src/schemas/init-db.js"
+    "init-db": "node src/schemas/init-db.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2"
   }
 }
